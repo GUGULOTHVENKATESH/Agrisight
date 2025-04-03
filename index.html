@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriSight: AI-Powered Precision Farming Advisor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="AgriSight.css">
+</head>
+<body class="bg-green-50 p-6">
+    <script type ="importmap">
+        {
+            "imports": {
+                "@google/generative-ai": "https://esm.run/@google/generative-ai"
+            }
+        }
+    </script>
+    <nav class="navbar fixed top-0 left-0 w-full shadow-lg z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="logo.jpg" alt="Logo" class="logo mr-2">
+                <div class="text-2xl font-bold text-green-800">
+                    AgriSight: AI-Powered Precision Farming Advisor
+                </div>
+            </div>
+            <div class="flex space-x-4">
+                <a href="form.html" class="text-green-700 hover:text-green-600"><i class="fas fa-home icon"></i>Home</a>
+                <a href="about.html" class="text-green-700 hover:text-green-600"><i class="fas fa-info-circle icon"></i>About</a>
+                <a href="contact.html" class="text-green-700 hover:text-green-600"><i class="fas fa-envelope icon"></i>Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex flex-col md:flex-row mt-20">
+        <!-- Form Section -->
+        <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg mb-6 md:mb-0 md:mr-6">
+            <h1 class="text-3xl font-bold text-center mb-6 text-green-800">
+                <i class="fas fa-seedling"></i> Get Farming Recommendations
+            </h1>
+
+            <form id="farmForm" class="space-y-6">
+                <!-- Language Selection -->
+                <div>
+                    <label class="block text-lg font-medium text-gray-700 mb-2">Select Language:</label>
+                    <select id="language" class="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-green-500">
+                        <option value="english">English</option>
+                        <option value="hindi">Hindi</option>
+                        <option value="tamil">Tamil</option>
+                        <option value="telugu">Telugu</option>
+                        <option value="bengali">Bengali</option>
+                        <option value="marathi">Marathi</option>
+                        <option value="gujarati">Gujarati</option>
+                        <option value="punjabi">Punjabi</option>
+                        <option value="malayalam">Malayalam</option>
+                        <option value="kannada">Kannada</option>
+                        <option value="odia">Odia</option>
+                        <option value="assamese">Assamese</option>
+                        <option value="urdi">Urdu</option>
+                    </select>
+                </div>
+
+                <!-- Location -->
+                <div>
+                    <label class="block text-lg font-medium text-gray-700 mb-2">Select Your Location:</label>
+                    <select id="location" class="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-green-500" required>
+                        <option value="">Select State/UT</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                        <option value="Lakshadweep">Lakshadweep</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Puducherry">Puducherry</option>
+                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                        <option value="Ladakh">Ladakh</option>
+                    </select>
+                </div>
+
+                <!-- Temperature and Rainfall (Auto-filled) -->
+                <div>
+                    <label class="block text-lg font-medium text-gray-700 mb-2" for="rainfall">Average Annual Rainfall (in mm):</label>
+                    <input type="number" id="rainfall" class="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 input-field" placeholder="E.g., 1200" required>
+                </div>
+                
+                <div>
+                    <label class="block text-lg font-medium text-gray-700 mb-2" for="temperature">Average Temperature (in °C):</label>
+                    <input type="number" id="temperature" class="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 input-field" placeholder="E.g., 25" required>
+                </div>
+                
+
+                <!-- Soil Type -->
+                <div>
+                    <label class="block text-lg font-medium text-gray-700 mb-2">Select Soil Type:</label>
+                    <select id="soilType" class="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-green-500" required>
+                        <option value="loamy">Loamy</option>
+                        <option value="sandy">Sandy</option>
+                        <option value="clay">Clay</option>
+                    </select>
+                </div>
+
+                <!-- Season -->
+                <div>
+                    <label class="block text-lg font-medium text-gray-700 mb-2">Select Season:</label>
+                    <select id="season" class="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-green-500" required>
+                        <option value="summer">Summer</option>
+                        <option value="winter">Winter</option>
+                        <option value="monsoon">Monsoon</option>
+                    </select>
+                </div>
+
+                <!-- Water Sources -->
+                <div>
+                    <label class="block text-lg font-medium text-gray-700 mb-2">Select Water Sources:</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="borewell" class="mr-2"> Borewell
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="well" class="mr-2"> Well
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="river" class="mr-2"> Near River/Lake
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Land Characteristics -->
+                <div>
+                    <label class="block text-lg font-medium text-gray-700 mb-2">Land Characteristics:</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="flatLand" class="mr-2"> Flat Land
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="slopedLand" class="mr-2"> Sloped Land
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="fertileLand" class="mr-2"> Fertile Land
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-button w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition duration-300" id="myButton">
+                    <i class="fas fa-seedling"></i> Get Recommendations
+                </button>
+            </form>
+        </div>
+
+       <!-- Response Section -->
+<div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-semibold text-green-800 mb-4">
+        <i class="fas fa-lightbulb"></i> Farming Recommendations:
+    </h2>
+    <div id="loading" class="hidden flex justify-center items-center my-4">
+        <div class="animate-spin rounded-full h-8 w-8 border-t-4 border-green-600"></div>
+    </div>
+    <p id="response" class="text-green-700 text-lg font-medium mb-2">Your recommendations will appear here.</p>
+</div>
+    </div>
+    <script>
+        document.getElementById("myButton").addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent default form submission
+    
+            let responseContainer = document.getElementById("response");
+            let loadingAnimation = document.getElementById("loading");
+    
+            // Clear the previous response
+            responseContainer.innerHTML = "";
+    
+            // Show loading animation
+            loadingAnimation.classList.remove("hidden");
+    
+            // Simulate a delay (5 seconds)
+            setTimeout(() => {
+                // Hide loading animation
+                loadingAnimation.classList.add("hidden");
+    
+                // Show the response
+                responseContainer.innerHTML = "✅ Here are your farming recommendations...";
+            }, 5000); // 5 seconds delay
+        });
+    </script>
+    
+    <footer class="text-center mt-10">
+        <p class="text-gray-600">&copy; 2023 AgriSight. All rights reserved.</p>
+    </footer>
+
+    <script type="module">
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+        
+        const genAI = new GoogleGenerativeAI("AIzaSyBfCoYUi_wE_esMFjUHnD_oxOGePlfmFwU");
+
+        document.getElementById('myButton').addEventListener('click', async (event) => {
+            event.preventDefault(); // Prevent form submission
+
+            const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+            const prompt = generatePrompt();
+
+            try {
+                const result = await model.generateContent(prompt);
+                
+                const response = await result.response;
+
+                const text = await response.text(); // Properly awaiting the text response
+                console.log(text);
+                document.getElementById('response').textContent = text;
+            } catch (error) {
+                console.error("Error fetching AI response:", error);
+                document.getElementById("response").innerText = "Failed to get recommendations. Try again.";
+            }
+        });
+
+        function generatePrompt() {
+            const lang = document.getElementById("language").value;
+            const loc = document.getElementById("location").value;
+            const stype = document.getElementById("soilType").value;
+            const seas = document.getElementById("season").value;
+            const temp = document.getElementById("temperature").value;
+            const rain = document.getElementById("rainfall").value;
+
+            // Collecting Water Sources
+            let watersource = [];
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach((checkbox) => {
+                let label = checkbox.parentElement.innerText.trim();
+                watersource.push(label);
+            });
+
+            return `Suggest appropriate crops for ${stype} soil with ${watersource.join(", ")} water availability during the ${seas} season in ${loc},the average temperature ${temp}, the average annual rainfall is ${rain}. Consider local food habits to minimize farmer losses.  give the response in points form(min-20 & max-50) and give the response in only${lang}.`;
+        }
+    </script>
+</body>
+</html>
